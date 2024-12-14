@@ -4,7 +4,7 @@ from aiogram.types import InputMediaPhoto, InputMediaDocument, InputMediaAudio, 
 
 
 def generate_tg_message(msg: VkMessage) -> tuple[dict, callable]:
-    text = f"·{msg.chat_title}·\n{msg.get_tg_text()}"
+    text = f"·{msg.chat_title}·\n{msg.get_tg_text()}".replace(".", "\.")
     media = msg.media
     commands = []
 
@@ -51,5 +51,6 @@ def generate_tg_message(msg: VkMessage) -> tuple[dict, callable]:
 
 async def send_message(bot: Bot, msg: VkMessage, tg_chat_id: int):
     commands = generate_tg_message(msg)
+
     for message in commands:
         message: Message = await message[1](bot, tg_chat_id, **message[0])
